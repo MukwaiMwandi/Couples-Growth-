@@ -1,0 +1,32 @@
+quantum-couple-app/
+├── 📁 client/                    # React Frontend
+│   ├── 📁 public/
+│   ├── 📁 src/
+│   │   ├── 📁 components/
+│   │   │   ├── 📁 quantum/
+│   │   │   ├── 📁 planning/
+│   │   │   ├── 📁 therapeutic/
+│   │   │   └── 📁 shared/
+│   │   ├── 📁 pages/
+│   │   ├── 📁 services/
+│   │   ├── 📁 utils/
+│   │   └── App.jsx
+│   └── package.json
+├── 📁 server/                    # Node.js Backend
+│   ├── 📁 controllers/
+│   ├── 📁 models/
+│   ├── 📁 routes/
+│   ├── 📁 services/
+│   ├── 📁 middleware/
+│   └── server.js
+├── 📁 ai-engine/                 # DeepSeek AI Integration
+│   ├── 📁 prompts/
+│   ├── 📁 processors/
+│   └── index.js
+├── 📁 database/                  # MongoDB Schemas
+│   ├── schemas.js
+│   └── migrations/
+├── package.json
+├── .env.example
+├── .gitignore
+└── README.md
