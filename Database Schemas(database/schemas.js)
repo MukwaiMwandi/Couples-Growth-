@@ -1,0 +1,117 @@
+const mongoose = require('mongoose');
+
+const userSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  passwordHash: { type: String, required: true },
+  name: { type: String, required: true },
+  avatar: String,
+  loveLanguages: [String],
+  communicationStyle: String,
+  createdAt: { type: Date, default: Date.now }
+});
+
+const coupleSchema = new mongoose.Schema({
+  partnerA: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  partnerB: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  anniversary: Date,
+  quantumNodes: {
+    travel: [{
+      destination: String,
+      status: { type: String, enum: ['dreaming', 'planning', 'booked', 'completed'], default: 'dreaming' },
+      excitementScore: Number,
+      sharedValue: Number,
+      memoryPhotos: [String],
+      reflections: [{
+        date: Date,
+        question: String,
+        answerA: String,
+        answerB: String
+      }]
+    }],
+    financial: [{
+      goal: String,
+      targetAmount: Number,
+      currentAmount: Number,
+      timeline: String,
+      trustScore: Number,
+      agreements: [{
+        date: Date,
+        decision: String,
+        impact: String
+      }]
+    }],
+    growth: [{
+      type: { type: String, enum: ['education', 'career', 'skill', 'personal'] },
+      description: String,
+      person: { type: String, enum: ['A', 'B', 'both'] },
+      supportPlan: {
+        studyTimeRespected: Boolean,
+        checkins: [Date],
+        celebrationPoints: [String]
+      }
+    }]
+  },
+  communicationMetrics: {
+    gratitudeCount: { type: Number, default: 0 },
+    conflictCount: { type: Number, default: 0 },
+    magicRatio: Number,
+    lastTherapistReview: Date
+  },
+  specialDates: [{
+    name: String,
+    date: Date,
+    type: { type: String, enum: ['anniversary', 'birthday', 'personal', 'milestone'] },
+    recurring: Boolean
+  }]
+});
+
+const journalEntrySchema = new mongoose.Schema({
+  couple: { type: mongoose.Schema.Types.ObjectId, ref: 'Couple', required: true },
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  content: String,
+  formattedContent: String, // NVC formatted version
+  emotionalTone: {
+    primary: String,
+    secondary: String,
+    intensity: Number
+  },
+  category: { 
+    type: String, 
+    enum: ['gratitude', 'reflection', 'conflict', 'memory', 'growth'] 
+  },
+  isPrivate: { type: Boolean, default: false },
+  isShared: { type: Boolean, default: false },
+  aiResponse: {
+    reflection: String,
+    suggestions: [String],
+    reframed: String
+  },
+  createdAt: { type: Date, default: Date.now }
+});
+
+const therapistReviewSchema = new mongoose.Schema({
+  couple: { type: mongoose.Schema.Types.ObjectId, ref: 'Couple', required: true },
+  weekStart: Date,
+  weekEnd: Date,
+  aiGenerated: {
+    highlights: [String],
+    patterns: [String],
+    suggestions: [String],
+    encouragement: String
+  },
+  metrics: {
+    gratitudeCount: Number,
+    conflictCount: Number,
+    positivityRatio: Number,
+    emotionalRange: [String]
+  },
+  readBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  createdAt: { type: Date, default: Date.now }
+});
+
+module.exports = {
+  User: mongoose.model('User', userSchema),
+  Couple: mongoose.model('Couple', coupleSchema),
+  JournalEntry: mongoose.model('JournalEntry', journalEntrySchema),
+  TherapistReview: mongoose.model('TherapistReview', therapistReviewSchema)
+};
